@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 /**
  * Fetches files associated with a specific user profile from the Supabase database.
@@ -9,16 +9,21 @@ import { supabase } from "@/lib/supabaseClient";
  * @returns - An array of file objects associated with the user profile.
  */
 export async function fetchUserFiles(userProfileId: string, page: number = 1) {
+  const supabase = getSupabaseClient();
+  if (!supabase) throw new Error("Supabase not configured");
+
   const start = (page - 1) * 50;
   const end = start + 49;
+
   const { data, error } = await supabase
     .from("files")
     .select("*", { count: "exact" })
     .eq("user_profile_id", userProfileId)
     .order("uploaded_at", { ascending: false })
     .range(start, end);
+
   if (error) throw error;
-  return data;
+  return data ?? [];
 }
 
 /**
@@ -35,14 +40,17 @@ export async function uploadUserFile(
   userProfileId: string,
   tags?: string[],
 ) {
+  const supabase = getSupabaseClient();
+  if (!supabase) throw new Error("Supabase not configured");
+
   const fileExt = file.name.split(".").pop();
   const fileName = `${Date.now()}.${fileExt}`;
   const filePath = `${userProfileId}/${fileName}`;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: storageData, error: storageError } = await supabase.storage
+  const { error: storageError } = await supabase.storage
     .from("documents")
     .upload(filePath, file);
+
   if (storageError) throw storageError;
 
   const { data: publicUrlData } = supabase.storage
@@ -56,7 +64,7 @@ export async function uploadUserFile(
       filename: file.name,
       url: publicUrlData.publicUrl,
       file_type: file.type,
-      tags: tags,
+      tags: tags ?? [],
     })
     .select("*")
     .single();
@@ -64,7 +72,3 @@ export async function uploadUserFile(
   if (error) throw error;
   return data;
 }
-
-// Supabase RLS Policy: Table is only accessible to authenticated users.
-// Only the user who uploaded the file can access, update, or delete it.
-// They cannot access, update, or delete files uploaded by other users.
