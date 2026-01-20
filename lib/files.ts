@@ -1,74 +1,67 @@
-import { getSupabaseClient } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 
 /**
- * Fetches files associated with a specific user profile from the Supabase database.
- * Note: Supabase RLS will block this operation if the user is not the owner of the record.
+ * Fetches files of a user profile (paginated).
  *
- * @param userProfileId - The ID of the user profile whose files we want to fetch.
- * @param page - The page number to fetch (50 items per page; default is 1).
- * @returns - An array of file objects associated with the user profile.
+ * @param userProfileId
+ * @param page default 1
  */
 export async function fetchUserFiles(userProfileId: string, page: number = 1) {
-  const supabase = getSupabaseClient();
-  if (!supabase) throw new Error("Supabase not configured");
-
   const start = (page - 1) * 50;
   const end = start + 49;
 
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from("files")
     .select("*", { count: "exact" })
     .eq("user_profile_id", userProfileId)
-    .order("uploaded_at", { ascending: false })
+    .order("created_at", { ascending: false }) // ✅ tumhare table me created_at hai
     .range(start, end);
 
   if (error) throw error;
-  return data ?? [];
+
+  return { data: data ?? [], count: count ?? 0 };
 }
 
 /**
- * Uploads a file to the "documents" storage bucket and inserts a record into the "files" table.
- * Note: Supabase RLS will block this operation if the user is not the owner of the record.
- *
- * @param file - The file to be uploaded.
- * @param userProfileId - The ID of the user profile to which the file belongs.
- * @param tags - An optional array of tags for the file.
- * @returns - The inserted file record.
+ * Upload file to storage and insert record into "files" table.
  */
 export async function uploadUserFile(
   file: File,
   userProfileId: string,
   tags?: string[],
 ) {
-  const supabase = getSupabaseClient();
-  if (!supabase) throw new Error("Supabase not configured");
-
-  const fileExt = file.name.split(".").pop();
+  const fileExt = file.name.split(".").pop() || "file";
   const fileName = `${Date.now()}.${fileExt}`;
   const filePath = `${userProfileId}/${fileName}`;
 
+  // ✅ Upload
   const { error: storageError } = await supabase.storage
     .from("documents")
-    .upload(filePath, file);
+    .upload(filePath, file, { upsert: false });
 
   if (storageError) throw storageError;
 
+  // ✅ public url
   const { data: publicUrlData } = supabase.storage
     .from("documents")
     .getPublicUrl(filePath);
 
+  const fileUrl = publicUrlData.publicUrl;
+
+  // ✅ Insert DB
   const { data, error } = await supabase
     .from("files")
     .insert({
       user_profile_id: userProfileId,
-      filename: file.name,
-      url: publicUrlData.publicUrl,
-      file_type: file.type,
-      tags: tags ?? [],
+      file_name: file.name, // ✅ tumhare table column file_name hai
+      file_url: fileUrl,    // ✅ tumhare table column file_url hai
+      created_at: new Date().toISOString(),
+      // tags: tags,  // ❌ tags column nahi hai tumhare table me, isliye comment
     })
     .select("*")
     .single();
 
   if (error) throw error;
+
   return data;
 }
