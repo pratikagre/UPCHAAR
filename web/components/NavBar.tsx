@@ -16,6 +16,10 @@ import {
   X,
 } from "lucide-react";
 import { supabase } from "@/lib/supabaseClient";
+if (!supabase) {
+  throw new Error("Supabase client not initialized");
+}
+
 import { signOut } from "@/lib/auth";
 import { ModeToggle } from "@/components/ModeToggle";
 

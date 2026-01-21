@@ -15,9 +15,11 @@ const shownNotifications = new Set<string>();
 let browserNotifier:
   | ((r: { title: string; body: string; type?: string }) => void)
   | null = null;
+
 let notifierInitPromise: Promise<
   ((r: { title: string; body: string; type?: string }) => Promise<void>) | null
 > | null = null;
+
 let notifiedPermissionDenied = false;
 
 const initBrowserNotifier = async () => {
@@ -32,6 +34,7 @@ const initBrowserNotifier = async () => {
         console.error("Service worker registration failed:", err);
       }
     }
+
     const registration =
       "serviceWorker" in navigator
         ? await navigator.serviceWorker.ready.catch((err) => {
@@ -43,6 +46,7 @@ const initBrowserNotifier = async () => {
     if (Notification.permission === "default") {
       await Notification.requestPermission();
     }
+
     const notify = async ({ title, body }: { title: string; body: string }) => {
       if (!("Notification" in window)) return;
       if (Notification.permission === "denied") {
@@ -54,28 +58,33 @@ const initBrowserNotifier = async () => {
         }
         return;
       }
+
       if (Notification.permission === "default") {
         const perm = await Notification.requestPermission();
         if (perm !== "granted") return;
       }
+
       const reg =
         registration ||
         (await navigator.serviceWorker.getRegistration().catch((err) => {
           console.error("getRegistration failed:", err);
           return null;
         }));
+
       const options: NotificationOptions = {
         body,
         icon: "/favicon.ico",
         tag: `${title}:${body}`,
         data: { url: window.location.href },
       };
+
       if (reg) {
         await reg.showNotification(title, options);
       } else {
         new Notification(title, options);
       }
     };
+
     browserNotifier = notify;
     return notify;
   } catch (err) {
@@ -96,7 +105,9 @@ const handleToast = (r: { title: string; body: string }) => {
   const key = `${r.title}:${r.body}`;
   if (shownNotifications.has(key)) return;
   shownNotifications.add(key);
+
   toast.info(r.title, { description: r.body });
+
   if (browserNotifier) {
     browserNotifier(r);
   } else {
@@ -104,50 +115,10 @@ const handleToast = (r: { title: string; body: string }) => {
   }
 };
 
-supabase.auth.onAuthStateChange((_, session) => {
-  const userId = session?.user?.id;
-  if (!userId) return;
-
-  supabase.removeAllChannels();
-
-  const fetchMissed = async () => {
-    const since = new Date(Date.now() - 60_000).toISOString();
-    const { data, error } = await supabase
-      .from("user_notifications")
-      .select("title, body")
-      .eq("user_profile_id", userId)
-      .gte("created_at", since);
-
-    if (error) {
-      console.error("Missed fetch error:", error);
-      return;
-    }
-    (data ?? []).forEach(handleToast);
-  };
-
-  const channel = supabase.channel(`reminders-${userId}`).on(
-    "postgres_changes",
-    {
-      event: "INSERT",
-      schema: "public",
-      table: "user_notifications",
-      filter: `user_profile_id=eq.${userId}`,
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ({ new: row }) => handleToast(row as any),
-  );
-
-  channel.subscribe((status) => {
-    if (status === "SUBSCRIBED") {
-      console.log("✅ reminders channel LIVE");
-      fetchMissed();
-    }
-  });
-});
-
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  // Wanna hide the nav bar on auth pages and landing page and 404
+
+  // Hide nav bar on auth pages and landing page and 404
   const authPaths = [
     "/",
     "/auth/signUp",
@@ -161,6 +132,13 @@ export default function App({ Component, pageProps }: AppProps) {
   const [navExpanded, setNavExpanded] = useState<boolean>(true);
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
+  const marginLeft = isMobile ? "0" : navExpanded ? "16rem" : "5rem";
+
+  const [userId, setUserId] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const broadcastChannelRef = useRef<any>(null);
+
+  // ✅ Responsive
   useEffect(() => {
     if (typeof window !== "undefined") {
       const checkScreen = () => setIsMobile(window.innerWidth < 768);
@@ -179,14 +157,7 @@ export default function App({ Component, pageProps }: AppProps) {
     localStorage.setItem("navExpanded", String(navExpanded));
   }, [navExpanded]);
 
-  // Push content to the right when nav is expanded. This is kinda a
-  // hacky way to do it, but it works
-  const marginLeft = isMobile ? "0" : navExpanded ? "16rem" : "5rem";
-  const [userId, setUserId] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const broadcastChannelRef = useRef<any>(null);
-
-  // Register service worker + prep browser notifications
+  // ✅ Register service worker
   useEffect(() => {
     if (typeof window === "undefined" || !("serviceWorker" in navigator)) {
       return;
@@ -201,6 +172,7 @@ export default function App({ Component, pageProps }: AppProps) {
     register();
   }, []);
 
+  // ✅ Init browser notifications
   useEffect(() => {
     if (typeof window === "undefined" || !("Notification" in window)) {
       return;
@@ -229,6 +201,7 @@ export default function App({ Component, pageProps }: AppProps) {
       try {
         if (!("Notification" in window)) return;
         if (Notification.permission === "denied") return;
+
         if (Notification.permission === "default") {
           const permission = await Notification.requestPermission();
           if (permission !== "granted") return;
@@ -241,10 +214,10 @@ export default function App({ Component, pageProps }: AppProps) {
           tag: `${title}:${body}`,
           data: { url: window.location.href },
         };
+
         if (registration) {
           await registration.showNotification(title, options);
         } else {
-          // Fallback if registration is missing
           new Notification(title, options);
         }
       } catch (err) {
@@ -263,12 +236,72 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, []);
 
+  // ✅ Important: Move supabase auth listener INSIDE useEffect (no build crash)
   useEffect(() => {
+    if (!supabase) return;
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      const uid = session?.user?.id;
+      if (!uid) return;
+
+      supabase.removeAllChannels();
+
+      const fetchMissed = async () => {
+        const since = new Date(Date.now() - 60_000).toISOString();
+        const { data, error } = await supabase
+          .from("user_notifications")
+          .select("title, body")
+          .eq("user_profile_id", uid)
+          .gte("created_at", since);
+
+        if (error) {
+          console.error("Missed fetch error:", error);
+          return;
+        }
+
+        (data ?? []).forEach(handleToast);
+      };
+
+      const channel = supabase
+        .channel(`reminders-${uid}`)
+        .on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "user_notifications",
+            filter: `user_profile_id=eq.${uid}`,
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ({ new: row }: any) => handleToast(row),
+        );
+
+      channel.subscribe((status) => {
+        if (status === "SUBSCRIBED") {
+          console.log("✅ reminders channel LIVE");
+          fetchMissed();
+        }
+      });
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  // ✅ Get logged-in user id
+  useEffect(() => {
+    if (!supabase) return;
+
     let isMounted = true;
+
     async function init() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
       if (user && isMounted) {
         setUserId(user.id);
       }
@@ -281,7 +314,9 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, []);
 
+  // ✅ Realtime reminders channel (guarded)
   useLayoutEffect(() => {
+    if (!supabase) return;
     if (!userId) return;
 
     const fetchMissed = async () => {
@@ -300,16 +335,18 @@ export default function App({ Component, pageProps }: AppProps) {
       (data ?? []).forEach(handleToast);
     };
 
-    const channel = supabase.channel(`reminders-${userId}`).on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "user_notifications",
-        filter: `user_profile_id=eq.${userId}`,
-      },
-      ({ new: row }) => handleToast(row as { title: string; body: string }),
-    );
+    const channel = supabase
+      .channel(`reminders-${userId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "user_notifications",
+          filter: `user_profile_id=eq.${userId}`,
+        },
+        ({ new: row }) => handleToast(row as { title: string; body: string }),
+      );
 
     channel.subscribe((status) => {
       if (status === "SUBSCRIBED") {
@@ -322,20 +359,9 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, [userId]);
 
-  /**
-   * Supabase Realtime #3: Reminder notifications.
-   * This will be used to notify the user when a reminder is due.
-   * How it works: Supabase CRON is set up in Supbase Dashboard to
-   * call a function every second. This function will check if
-   * there are any reminders due and if so, it will insert
-   * a new row in the user_notifications table. This will
-   * trigger the realtime subscription in this file and the
-   * user will be notified via a toast notification, immediately
-   * after the row is inserted (i.e. when their reminder is due).
-   *
-   * Something I'm so proud of too lol :>
-   */
+  // ✅ Reminder notifications subscription (guarded)
   useEffect(() => {
+    if (!supabase) return;
     if (!userId) return;
 
     const channel = supabase
@@ -363,22 +389,16 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, [userId]);
 
-  /**
-   * Supabase Realtime #2: In the above realtime functionality, we already
-   * created postgres changes for meds, appointments, and health logs. However,
-   * that will only update the UI if the user adds a new med, appointment, or log
-   * from another device. But we may also wanna broadcast a message to the user
-   * when a new med, appointment, or log is added from another device as well.
-   * This is where the broadcast channel comes in - it will broadcast a message
-   * to the user when a new med, appointment, or log is added from another device so
-   * that the user knows that something has changed in the UI and the reason
-   * for that change.
-   */
+  // ✅ Broadcast channel (guarded)
   useEffect(() => {
+    if (!supabase) return;
+
     broadcastChannelRef.current = supabase.channel("universal-channel", {
       config: { broadcast: { self: false } },
     });
+
     const channel = broadcastChannelRef.current;
+
     channel
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .on("broadcast", { event: "*" }, (payload: any) => {
@@ -389,16 +409,18 @@ export default function App({ Component, pageProps }: AppProps) {
       .subscribe((status: string) => {
         console.log("Universal channel status:", status);
       });
+
     return () => {
       supabase.removeChannel(channel);
       broadcastChannelRef.current = null;
     };
   }, []);
 
+  // ✅ Fetch due reminders (guarded)
   useEffect(() => {
+    if (!supabase) return;
     if (!userId) return;
 
-    // Helper to fetch reminders due in the current minute window
     const fetchDueReminders = async () => {
       const now = new Date();
       const windowStart = new Date(now.setSeconds(0, 0));
@@ -415,6 +437,7 @@ export default function App({ Component, pageProps }: AppProps) {
         console.error("Error fetching due reminders:", error);
         return;
       }
+
       dueReminders?.forEach(({ title, body }) => handleToast({ title, body }));
     };
 
@@ -424,7 +447,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
     const timeoutId = setTimeout(() => {
       fetchDueReminders();
-
       const intervalId = setInterval(fetchDueReminders, 60_000);
 
       return () => clearInterval(intervalId);

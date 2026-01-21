@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { supabase } from "@/lib/supabaseClient";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 import { getPaginatedMedicationRemindersByUser } from "@/lib/medications";
 import { Bell, Pencil, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -73,6 +73,8 @@ interface Reminder {
 }
 
 export default function MedicationReminders() {
+  const supabase = getSupabaseClient(); // ✅ safe client
+
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingMed, setEditingMed] = useState<Reminder | null>(null);
@@ -92,9 +94,6 @@ export default function MedicationReminders() {
 
   /**
    * Trigger a broadcast event to all connected clients
-   *
-   * @param eventName - The name of the event to broadcast.
-   * @param message - The message to send with the event.
    */
   const sendBroadcast = (eventName: string, message: string) => {
     if (broadcastChannelRef.current) {
@@ -107,6 +106,8 @@ export default function MedicationReminders() {
   };
 
   useEffect(() => {
+    if (!supabase) return; // ✅ important
+
     async function subscribeToUserChannel() {
       const {
         data: { user },
@@ -141,25 +142,31 @@ export default function MedicationReminders() {
     }
 
     subscribeToUserChannel();
-  }, [router]);
+  }, [router, supabase]);
 
   useEffect(() => {
+    if (!supabase) return; // ✅ important
+
     async function checkUserAuth() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+
       if (!user) {
         router.push("/auth/login");
       }
     }
     checkUserAuth();
-  }, [router]);
+  }, [router, supabase]);
 
   useEffect(() => {
     fetchReminders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [medPage]);
 
   useEffect(() => {
+    if (!supabase) return; // ✅ important
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let subscription: any;
 
@@ -210,14 +217,18 @@ export default function MedicationReminders() {
         )
         .subscribe();
     }
+
     init();
 
     return () => {
       if (subscription) supabase.removeChannel(subscription);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [supabase]);
 
   async function fetchReminders() {
+    if (!supabase) return; // ✅ important
+
     setLoading(true);
     const { data: userData, error: userError } = await supabase.auth.getUser();
 
@@ -235,11 +246,13 @@ export default function MedicationReminders() {
         medPage,
         50,
       );
+
       const uiReminders: Reminder[] = data.map((r) => ({
         ...r,
         dosage: r.dosage ?? "",
         recurrence: r.recurrence ?? "",
       }));
+
       setReminders(uiReminders);
       setTotalMeds(count);
     } catch (error) {
@@ -255,7 +268,6 @@ export default function MedicationReminders() {
     setEditMedName(med.medication_name);
 
     if (med.dosage) {
-      // Assume dosage is stored as "number unit", e.g. "500 mg"
       const parts = med.dosage.split(" ");
       setEditMedDosage(parts[0] || "");
       setEditMedDosageUnit(parts[1] || "mg");
@@ -273,7 +285,9 @@ export default function MedicationReminders() {
   }
 
   async function handleUpdateMed() {
+    if (!supabase) return; // ✅ important
     if (!editingMed || !editMedDate) return;
+
     const dateString = format(editMedDate, "yyyy-MM-dd");
     const combined = `${dateString}T${editMedTimePicker}`;
     const localDate = new Date(combined);
@@ -283,7 +297,6 @@ export default function MedicationReminders() {
       .from("medication_reminders")
       .update({
         medication_name: editMedName,
-        // Join the numeric dosage with unit (example: "500 mg")
         dosage: `${editMedDosage} ${editMedDosageUnit}`,
         reminder_time: isoString,
         recurrence: editMedRecurrence,
@@ -321,6 +334,21 @@ export default function MedicationReminders() {
 
   const totalPages = Math.ceil(totalMeds / 50);
 
+  // ✅ If supabase not configured
+  if (!supabase) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <div className="max-w-md text-center">
+          <h2 className="text-xl font-bold mb-2">Supabase Not Configured</h2>
+          <p className="text-sm opacity-80">
+            Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY
+            in Environment Variables.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -347,6 +375,7 @@ export default function MedicationReminders() {
             overscroll-behavior: none;
           }
         `}</style>
+
         <motion.header
           variants={slideInLeft}
           className="text-center md:text-left mb-8 p-2"
@@ -458,6 +487,7 @@ export default function MedicationReminders() {
                 Update your medication details.
               </DialogDescription>
             </DialogHeader>
+
             <div className="grid gap-4 py-4">
               <div className="space-y-2">
                 <Label className="inline-flex items-center gap-0.5">
@@ -542,6 +572,7 @@ export default function MedicationReminders() {
                 </Select>
               </div>
             </div>
+
             <DialogFooter>
               <Button
                 variant="secondary"

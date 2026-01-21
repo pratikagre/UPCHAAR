@@ -1,5 +1,6 @@
 # Single‐image monorepo container for smoke testing
-FROM node:18-alpine
+FROM node:20-alpine
+
 WORKDIR /workspace
 
 # Install dependencies for both projects
