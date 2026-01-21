@@ -231,7 +231,7 @@ export default function AIChatPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [pendingAction, setPendingAction] = useState<ActionPayload | null>(
+  const [, setPendingAction] = useState<ActionPayload | null>(
     null,
   );
   const [applyingAction, setApplyingAction] = useState(false);
