@@ -1204,7 +1204,7 @@ export default function Home() {
                 Terms of Service
               </Link>
               <Link
-                href="https://github.com/hoangsonww/SymptomSync-Health-App"
+                href="https://github.com/pratikagre/UPCHAAR"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 hover:text-white"
