@@ -23,9 +23,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/hoangsonww/SymptomSync-Health-App"
-Documentation = "https://github.com/hoangsonww/SymptomSync-Health-App/tree/main/agentic_ai"
-Repository = "https://github.com/hoangsonww/SymptomSync-Health-App"
+Homepage = "https://github.com/pratikagre/UPCHAAR"
+Documentation = "https://github.com/pratikagre/UPCHAAR/tree/main/agentic_ai"
+Repository = "https://github.com/pratikagre/UPCHAAR"
 
 [tool.black]
 line-length = 100
