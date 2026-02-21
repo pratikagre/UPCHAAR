@@ -13,7 +13,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase: SupabaseClient = createClient(
   (supabaseUrl || "https://wewvjsnsroqvharbtjrd.supabase.co").replace(/\\r\\n|\\n|\\r/g, '').replace(/[\r\n]+/g, '').trim(),
-  (supabaseAnonKey || "sb_publishable_zozkZQbgW06shag3k3Wy5Q_cqlwkqGU").replace(/\\r\\n|\\n|\\r/g, '').replace(/[\r\n]+/g, '').trim(),
+  (supabaseAnonKey || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indld3Zqc25zcm9xdmhhcmJ0anJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NzU0ODksImV4cCI6MjA4NzI1MTQ4OX0.fBKepQYxNIVWns92NRPwX8yeXtir4dU2EgPDfkQ8gmY").replace(/\\r\\n|\\n|\\r/g, '').replace(/[\r\n]+/g, '').trim(),
 );
 
 export const getSupabaseClient = () => supabase;
