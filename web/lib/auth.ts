@@ -6,8 +6,9 @@ import { supabase } from "./supabaseClient";
 export async function signUp(email: string, password: string) {
   if (!supabase) throw new Error("Supabase not configured");
 
-  const emailRedirectTo =
-    process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL || "http://localhost:3000";
+  const emailRedirectTo = (
+    process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL || "http://localhost:3000"
+  ).replace(/\\r\\n|\\n|\\r/g, '').replace(/[\r\n]+/g, '').trim();
 
   const { data, error } = await supabase.auth.signUp({
     email,

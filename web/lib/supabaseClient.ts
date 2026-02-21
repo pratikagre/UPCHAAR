@@ -12,8 +12,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase: SupabaseClient = createClient(
-  (supabaseUrl || "https://ggsqublasivptmjxzkgw.supabase.co").trim(),
-  (supabaseAnonKey || "sb_publishable_XSqmz68dJcKFxsDoVXCj8A_4NWKbivX").trim(),
+  (supabaseUrl || "https://ggsqublasivptmjxzkgw.supabase.co").replace(/\\r\\n|\\n|\\r/g, '').replace(/[\r\n]+/g, '').trim(),
+  (supabaseAnonKey || "sb_publishable_XSqmz68dJcKFxsDoVXCj8A_4NWKbivX").replace(/\\r\\n|\\n|\\r/g, '').replace(/[\r\n]+/g, '').trim(),
 );
 
 export const getSupabaseClient = () => supabase;
