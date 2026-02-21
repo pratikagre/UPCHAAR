@@ -28,7 +28,6 @@ export async function fetchUserFiles(userProfileId: string, page: number = 1) {
 export async function uploadUserFile(
   file: File,
   userProfileId: string,
-  tags?: string[],
 ) {
   const fileExt = file.name.split(".").pop() || "file";
   const fileName = `${Date.now()}.${fileExt}`;

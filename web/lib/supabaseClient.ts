@@ -12,8 +12,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase: SupabaseClient = createClient(
-  supabaseUrl || "http://localhost:54321",
-  supabaseAnonKey || "dummy_anon_key",
+  (supabaseUrl || "https://ggsqublasivptmjxzkgw.supabase.co").trim(),
+  (supabaseAnonKey || "sb_publishable_XSqmz68dJcKFxsDoVXCj8A_4NWKbivX").trim(),
 );
 
 export const getSupabaseClient = () => supabase;

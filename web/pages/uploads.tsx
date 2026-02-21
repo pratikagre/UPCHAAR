@@ -75,7 +75,8 @@ export default function DocumentsPage() {
   const [uploading, setUploading] = useState(false);
   const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const [customFilename, setCustomFilename] = useState("");
-  const [tagsInput, setTagsInput] = useState("");
+  // tagsInput removed
+
   const [loadingFiles, setLoadingFiles] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [healthDialogOpen, setHealthDialogOpen] = useState(false);
@@ -91,7 +92,8 @@ export default function DocumentsPage() {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editingFile, setEditingFile] = useState<FileRow | null>(null);
   const [editFilename, setEditFilename] = useState("");
-  const [editTagsInput, setEditTagsInput] = useState("");
+  // editTagsInput removed
+
 
   useQuery({
     queryKey: ["files", currentPage],
@@ -149,18 +151,9 @@ export default function DocumentsPage() {
       return;
     }
     try {
-      const docs = await fetchUserFiles(user.id, currentPage);
-      setFiles(docs);
-
-      const { count, error: countError } = await supabase
-        .from("files")
-        .select("id", { count: "exact", head: true })
-        .eq("user_profile_id", user.id);
-      if (countError) {
-        console.error("Error fetching documents count:", countError);
-      } else {
-        setTotalDocuments(count || 0);
-      }
+      const { data, count } = await fetchUserFiles(user.id, currentPage);
+      setFiles((data || []) as unknown as FileRow[]);
+      setTotalDocuments(count || 0);
     } catch (error) {
       console.error("Error fetching files:", error);
       toast.error("Failed to fetch files");
@@ -191,17 +184,13 @@ export default function DocumentsPage() {
         });
       }
 
-      const tags = tagsInput
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag !== "");
-      const newFile = await uploadUserFile(fileToProcess, user.id, tags);
+      const newFile = await uploadUserFile(fileToProcess, user.id);
       setFiles((prev) => [newFile, ...prev]);
       toast.success("File uploaded successfully");
 
       setFileToUpload(null);
       setCustomFilename("");
-      setTagsInput("");
+      // setTagsInput("");
       setDialogOpen(false);
       fetchFiles();
     } catch (error) {
@@ -254,7 +243,7 @@ export default function DocumentsPage() {
   function openEditDialog(file: FileRow) {
     setEditingFile(file);
     setEditFilename(file.filename);
-    setEditTagsInput(file.tags?.join(", ") || "");
+    // setEditTagsInput(file.tags?.join(", ") || "");
     setEditDialogOpen(true);
   }
 
@@ -264,22 +253,20 @@ export default function DocumentsPage() {
    */
   async function handleSaveEdit() {
     if (!editingFile) return;
-    const newTags = editTagsInput
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
+
     try {
       const { error } = await supabase
         .from("files")
-        .update({ filename: editFilename.trim(), tags: newTags })
+        .update({ filename: editFilename.trim() })
         .eq("id", editingFile.id);
+
       if (error) throw error;
 
       setFiles((prev) =>
         prev.map((f) =>
-          f.id === editingFile.id
-            ? { ...f, filename: editFilename.trim(), tags: newTags }
-            : f,
+        (f.id === editingFile.id
+          ? { ...f, filename: editFilename.trim() }
+          : f)
         ),
       );
       toast.success("Metadata updated");
@@ -350,7 +337,8 @@ export default function DocumentsPage() {
       }
 
       const pdfBytes = await mergedPdf.save();
-      const blob = new Blob([pdfBytes], { type: "application/pdf" });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const blob = new Blob([pdfBytes as any], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -509,10 +497,10 @@ export default function DocumentsPage() {
                               file.file_type === "application/pdf" ||
                               file.file_type.startsWith("image/"),
                           ).length === 0 && (
-                            <p className="text-gray-500">
-                              No PDF or image documents available.
-                            </p>
-                          )}
+                              <p className="text-gray-500">
+                                No PDF or image documents available.
+                              </p>
+                            )}
                         </div>
                         <div className="flex justify-end gap-4 mt-4">
                           <Button
@@ -567,12 +555,7 @@ export default function DocumentsPage() {
                             onChange={(e) => setCustomFilename(e.target.value)}
                             className="py-2"
                           />
-                          <Input
-                            placeholder="Enter tags, separated by commas (optional)"
-                            value={tagsInput}
-                            onChange={(e) => setTagsInput(e.target.value)}
-                            className="py-2"
-                          />
+
                           <Button
                             onClick={handleUpload}
                             disabled={!fileToUpload || uploading}
@@ -803,11 +786,7 @@ export default function DocumentsPage() {
                     onChange={(e) => setEditFilename(e.target.value)}
                     placeholder="Filename"
                   />
-                  <Input
-                    value={editTagsInput}
-                    onChange={(e) => setEditTagsInput(e.target.value)}
-                    placeholder="Tags, comma‑separated"
-                  />
+
                 </div>
                 <div className="flex justify-end gap-4 mt-6">
                   <Button

@@ -12,21 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import {
   getMedicationRemindersByUser,
-  createMedicationReminder,
-  updateMedicationReminder,
-  deleteMedicationReminder,
 } from "@/lib/medications";
 import {
   getAppointmentRemindersByUser,
-  createAppointmentReminder,
-  updateAppointmentReminder,
-  deleteAppointmentReminder,
 } from "@/lib/appointmentReminders";
 import {
   getHealthLogsByUser,
-  createHealthLog,
-  updateHealthLog,
-  deleteHealthLog,
 } from "@/lib/healthLogs";
 import { getCurrentProfile } from "@/lib/profile";
 import { fetchUserFiles } from "@/lib/files";
@@ -39,14 +30,7 @@ type ChatMessage = {
   text: string;
 };
 
-type ActionEntity = "appointment" | "medication" | "health_log";
-type ActionIntent = "create" | "update" | "delete";
-type ActionPayload = {
-  entity: ActionEntity;
-  intent: ActionIntent;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: Record<string, any>;
-};
+
 
 type FileSummary = {
   filename?: string | null;
@@ -231,10 +215,6 @@ export default function AIChatPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [, setPendingAction] = useState<ActionPayload | null>(
-    null,
-  );
-  const [applyingAction, setApplyingAction] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const hasSentMessageRef = useRef(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -242,15 +222,7 @@ export default function AIChatPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const broadcastChannelRef = useRef<any>(null);
 
-  const [latestMeds, setLatestMeds] = useState<
-    Awaited<ReturnType<typeof getMedicationRemindersByUser>>
-  >([]);
-  const [latestAppts, setLatestAppts] = useState<
-    Awaited<ReturnType<typeof getAppointmentRemindersByUser>>
-  >([]);
-  const [latestLogs, setLatestLogs] = useState<
-    Awaited<ReturnType<typeof getHealthLogsByUser>>
-  >([]);
+  // Removed unused state variables for meds, appts, and logs
 
   useEffect(() => {
     async function checkUserAuth() {
@@ -346,9 +318,8 @@ export default function AIChatPage() {
 
       const files = filesRes?.data ?? [];
 
-      setLatestMeds(meds);
-      setLatestAppts(appts);
-      setLatestLogs(logs);
+      // Variables populated for AI context but not stored in state
+
 
       let userDataSummary = `Appointments:\n`;
       if (appts.length === 0) {
@@ -365,11 +336,9 @@ export default function AIChatPage() {
         userDataSummary += `- None\n`;
       } else {
         meds.forEach((m) => {
-          userDataSummary += `- ${m.medication_name}, dosage: ${
-            m.dosage ?? "N/A"
-          }, next time: ${new Date(m.reminder_time).toLocaleString()}, recurrence: ${
-            m.recurrence ?? "N/A"
-          }\n`;
+          userDataSummary += `- ${m.medication_name}, dosage: ${m.dosage ?? "N/A"
+            }, next time: ${new Date(m.reminder_time).toLocaleString()}, recurrence: ${m.recurrence ?? "N/A"
+            }\n`;
         });
       }
 
@@ -379,18 +348,16 @@ export default function AIChatPage() {
       } else {
         const recent = logs.slice(-3);
         recent.forEach((l) => {
-          userDataSummary += `- Symptom: ${l.symptom_type ?? "N/A"}, severity: ${
-            l.severity ?? 0
-          }, start: ${new Date(l.start_date).toLocaleString()}\n`;
+          userDataSummary += `- Symptom: ${l.symptom_type ?? "N/A"}, severity: ${l.severity ?? 0
+            }, start: ${new Date(l.start_date).toLocaleString()}\n`;
         });
       }
 
       userDataSummary += `\nProfile:\n`;
       if (profile) {
         userDataSummary += `- Name: ${profile.full_name ?? "N/A"}\n`;
-        userDataSummary += `- Conditions: ${
-          profile.condition_tags?.join(", ") || "None"
-        }\n`;
+        userDataSummary += `- Conditions: ${profile.condition_tags?.join(", ") || "None"
+          }\n`;
       } else {
         userDataSummary += `- No profile found.\n`;
       }
@@ -559,17 +526,15 @@ export default function AIChatPage() {
                         initial="hidden"
                         animate="visible"
                         exit={{ opacity: 0, y: -10 }}
-                        className={`mb-2 flex ${
-                          msg.role === "user" ? "justify-end" : "justify-start"
-                        }`}
+                        className={`mb-2 flex ${msg.role === "user" ? "justify-end" : "justify-start"
+                          }`}
                       >
                         <div
                           className={`
                             rounded-lg p-2 pb-0 shadow 
-                            ${
-                              msg.role === "user"
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted text-foreground"
+                            ${msg.role === "user"
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted text-foreground"
                             }
                             max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg
                             overflow-x-auto hover:shadow-lg transition-shadow duration-300
