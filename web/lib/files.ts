@@ -14,7 +14,7 @@ export async function fetchUserFiles(userProfileId: string, page: number = 1) {
     .from("files")
     .select("*", { count: "exact" })
     .eq("user_profile_id", userProfileId)
-    .order("created_at", { ascending: false }) // ✅ tumhare table me created_at hai
+    .order("uploaded_at", { ascending: false })
     .range(start, end);
 
   if (error) throw error;
@@ -52,10 +52,10 @@ export async function uploadUserFile(
     .from("files")
     .insert({
       user_profile_id: userProfileId,
-      file_name: file.name, // ✅ tumhare table column file_name hai
-      file_url: fileUrl,    // ✅ tumhare table column file_url hai
-      created_at: new Date().toISOString(),
-      // tags: tags,  // ❌ tags column nahi hai tumhare table me, isliye comment
+      filename: file.name,
+      url: fileUrl,
+      uploaded_at: new Date().toISOString(),
+      // tags: [],
     })
     .select("*")
     .single();

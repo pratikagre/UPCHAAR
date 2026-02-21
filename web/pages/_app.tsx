@@ -38,9 +38,9 @@ const initBrowserNotifier = async () => {
     const registration =
       "serviceWorker" in navigator
         ? await navigator.serviceWorker.ready.catch((err) => {
-            console.error("Service worker ready failed:", err);
-            return null;
-          })
+          console.error("Service worker ready failed:", err);
+          return null;
+        })
         : null;
 
     if (Notification.permission === "default") {
@@ -252,7 +252,7 @@ export default function App({ Component, pageProps }: AppProps) {
         const since = new Date(Date.now() - 60_000).toISOString();
         const { data, error } = await supabase
           .from("user_notifications")
-          .select("title, body")
+          .select("title, type")
           .eq("user_profile_id", uid)
           .gte("created_at", since);
 
@@ -261,7 +261,7 @@ export default function App({ Component, pageProps }: AppProps) {
           return;
         }
 
-        (data ?? []).forEach(handleToast);
+        (data ?? []).forEach((row: any) => handleToast({ title: row.title, body: row.type }));
       };
 
       const channel = supabase
@@ -323,7 +323,7 @@ export default function App({ Component, pageProps }: AppProps) {
       const since = new Date(Date.now() - 60_000).toISOString();
       const { data, error } = await supabase
         .from("user_notifications")
-        .select("title, body")
+        .select("title, type")
         .eq("user_profile_id", userId)
         .gte("created_at", since);
 
@@ -332,7 +332,7 @@ export default function App({ Component, pageProps }: AppProps) {
         return;
       }
 
-      (data ?? []).forEach(handleToast);
+      (data ?? []).forEach((row: any) => handleToast({ title: row.title, body: row.type }));
     };
 
     const channel = supabase
@@ -345,7 +345,7 @@ export default function App({ Component, pageProps }: AppProps) {
           table: "user_notifications",
           filter: `user_profile_id=eq.${userId}`,
         },
-        ({ new: row }) => handleToast(row as { title: string; body: string }),
+        ({ new: row }) => handleToast({ title: (row as any).title, body: (row as any).type }),
       );
 
     channel.subscribe((status) => {
@@ -375,11 +375,11 @@ export default function App({ Component, pageProps }: AppProps) {
           filter: `user_profile_id=eq.${userId}`,
         },
         (payload) => {
-          const { title, body } = payload.new as {
+          const { title, type } = payload.new as {
             title: string;
-            body: string;
+            type: string;
           };
-          handleToast({ title, body });
+          handleToast({ title, body: type });
         },
       )
       .subscribe();
@@ -428,7 +428,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
       const { data: dueReminders, error } = await supabase
         .from("user_notifications")
-        .select("title, body")
+        .select("title, type")
         .eq("user_profile_id", userId)
         .gte("created_at", windowStart.toISOString())
         .lt("created_at", windowEnd.toISOString());
@@ -438,7 +438,7 @@ export default function App({ Component, pageProps }: AppProps) {
         return;
       }
 
-      dueReminders?.forEach(({ title, body }) => handleToast({ title, body }));
+      dueReminders?.forEach((row: any) => handleToast({ title: row.title, body: row.type }));
     };
 
     const now = new Date();
