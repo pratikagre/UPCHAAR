@@ -247,7 +247,7 @@ export default function ProfilePage() {
     <>
       <Head>
         <title>
-          SymptomSync |{" "}
+          upchaarinfo |{" "}
           {profileToDisplay?.id === profile?.id
             ? "Your Profile"
             : `Viewing ${profileToDisplay?.full_name || profileToDisplay?.email}'s Profile`}{" "}

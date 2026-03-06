@@ -54,10 +54,10 @@ export default function UpdatePassword() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Update Password</title>
+        <title>upchaarinfo | Update Password</title>
         <meta
           name="description"
-          content="Set a new password for your SymptomSync account."
+          content="Set a new password for your upchaarinfo account."
         />
       </Head>
       <div className="h-screen flex flex-col sm:flex-row">
@@ -156,7 +156,7 @@ export default function UpdatePassword() {
           <div className="flex flex-col justify-between h-full">
             <div className="text-right mb-8">
               <h1 className="text-3xl sm:text-4xl font-bold text-white">
-                SymptomSync
+                upchaarinfo
               </h1>
             </div>
             <div className="mt-auto text-right">

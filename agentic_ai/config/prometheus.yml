@@ -2,11 +2,11 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
   external_labels:
-    cluster: 'symptomsync-agentic-ai'
+    cluster: 'upchaarinfo-agentic-ai'
     environment: 'production'
 
 scrape_configs:
-  - job_name: 'symptomsync-agentic-ai'
+  - job_name: 'upchaarinfo-agentic-ai'
     static_configs:
       - targets: ['agentic-ai:8000']
     metrics_path: '/metrics'

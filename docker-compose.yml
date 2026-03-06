@@ -1,11 +1,11 @@
 version: "3.9"
 services:
-  # SymptomSync Frontend
+  # upchaarinfo Frontend
   frontend:
     build:
       context: ./web
       dockerfile: Dockerfile
-    image: ghcr.io/hoangsonww/symptomsync-frontend:0.1.0
+    image: ghcr.io/hoangsonww/upchaarinfo-frontend:0.1.0
     ports:
       - "3000:3000"
     environment:

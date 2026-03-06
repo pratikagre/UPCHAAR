@@ -4,17 +4,17 @@ Tests for LangGraph assembly line
 
 import pytest
 from unittest.mock import Mock, AsyncMock, patch
-from graphs.assembly_line import SymptomSyncGraph
+from graphs.assembly_line import upchaarinfoGraph
 from graphs.state import SymptomAnalysisInput
 
 
 @pytest.mark.asyncio
-class TestSymptomSyncGraph:
-    """Tests for SymptomSyncGraph"""
+class TestupchaarinfoGraph:
+    """Tests for upchaarinfoGraph"""
 
     async def test_graph_initialization(self):
         """Test graph initialization"""
-        graph = SymptomSyncGraph()
+        graph = upchaarinfoGraph()
 
         assert graph.symptom_extractor is not None
         assert graph.knowledge_retriever is not None
@@ -26,17 +26,17 @@ class TestSymptomSyncGraph:
 
     async def test_visualize(self):
         """Test graph visualization"""
-        graph = SymptomSyncGraph()
+        graph = upchaarinfoGraph()
         diagram = graph.visualize()
 
         assert "graph TD" in diagram
         assert "Symptom Extractor" in diagram
         assert "Knowledge Retriever" in diagram
 
-    @patch('graphs.assembly_line.SymptomSyncGraph.graph')
+    @patch('graphs.assembly_line.upchaarinfoGraph.graph')
     async def test_analyze_symptoms_success(self, mock_graph):
         """Test successful symptom analysis"""
-        graph = SymptomSyncGraph()
+        graph = upchaarinfoGraph()
 
         # Mock the graph execution
         mock_graph.ainvoke = AsyncMock(return_value={
@@ -69,7 +69,7 @@ class TestSymptomSyncGraph:
 
     async def test_analyze_symptoms_error_handling(self):
         """Test error handling in symptom analysis"""
-        graph = SymptomSyncGraph()
+        graph = upchaarinfoGraph()
 
         input_data: SymptomAnalysisInput = {
             "user_input": "I have a headache",

@@ -26,69 +26,69 @@ class MetricsCollector:
 
         # Agent execution metrics
         self.agent_executions = Counter(
-            'symptomsync_agent_executions_total',
+            'upchaarinfo_agent_executions_total',
             'Total agent executions',
             ['agent_name', 'status']
         )
 
         self.agent_duration = Histogram(
-            'symptomsync_agent_duration_seconds',
+            'upchaarinfo_agent_duration_seconds',
             'Agent execution duration',
             ['agent_name']
         )
 
         # Pipeline metrics
         self.pipeline_executions = Counter(
-            'symptomsync_pipeline_executions_total',
+            'upchaarinfo_pipeline_executions_total',
             'Total pipeline executions',
             ['status']
         )
 
         self.pipeline_duration = Histogram(
-            'symptomsync_pipeline_duration_seconds',
+            'upchaarinfo_pipeline_duration_seconds',
             'Pipeline execution duration'
         )
 
         # LLM metrics
         self.llm_calls = Counter(
-            'symptomsync_llm_calls_total',
+            'upchaarinfo_llm_calls_total',
             'Total LLM API calls',
             ['model', 'status']
         )
 
         self.llm_tokens = Counter(
-            'symptomsync_llm_tokens_total',
+            'upchaarinfo_llm_tokens_total',
             'Total tokens used',
             ['model', 'type']  # type: prompt or completion
         )
 
         # Vector store metrics
         self.vector_queries = Counter(
-            'symptomsync_vector_queries_total',
+            'upchaarinfo_vector_queries_total',
             'Total vector store queries'
         )
 
         self.vector_query_duration = Histogram(
-            'symptomsync_vector_query_duration_seconds',
+            'upchaarinfo_vector_query_duration_seconds',
             'Vector query duration'
         )
 
         # Error metrics
         self.errors = Counter(
-            'symptomsync_errors_total',
+            'upchaarinfo_errors_total',
             'Total errors',
             ['component', 'error_type']
         )
 
         # System metrics
         self.active_requests = Gauge(
-            'symptomsync_active_requests',
+            'upchaarinfo_active_requests',
             'Number of active requests'
         )
 
         # Application info
         self.app_info = Info(
-            'symptomsync_app',
+            'upchaarinfo_app',
             'Application information'
         )
         self.app_info.info({

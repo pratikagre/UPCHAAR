@@ -1,4 +1,4 @@
-# web/Makefile for SymptomSync Frontend
+# web/Makefile for upchaarinfo Frontend
 # ────────────────────────────────────────────────────────────────────────────
 # Usage:
 #   make           # show this help
@@ -27,7 +27,7 @@ CLEAN := rm -rf .next node_modules
 .PHONY: help install dev build start lint format test clean
 
 help:
-	@echo "SymptomSync Frontend Makefile"
+	@echo "upchaarinfo Frontend Makefile"
 	@echo
 	@echo "Available targets:"
 	@echo "  install   Install dependencies"

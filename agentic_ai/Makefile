@@ -42,7 +42,7 @@ clean: ## Clean up generated files
 	find . -type f -name "*.pyc" -delete
 
 docker-build: ## Build Docker image
-	docker build -t symptomsync-agentic-ai:latest .
+	docker build -t upchaarinfo-agentic-ai:latest .
 
 docker-up: ## Start Docker Compose services
 	docker-compose up -d

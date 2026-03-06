@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
         <p className="text-sm">
           © {new Date().getFullYear()}{" "}
-          <strong className="font-bold">SymptomSync</strong>. All rights
+          <strong className="font-bold">upchaarinfo</strong>. All rights
           reserved.
         </p>
         <div className="mt-4 md:mt-0 flex items-center space-x-4">

@@ -1,13 +1,13 @@
 ---
-- name: Progressive delivery rollout for SymptomSync (blue/green + canary)
+- name: Progressive delivery rollout for upchaarinfo (blue/green + canary)
   hosts: localhost
   connection: local
   gather_facts: no
 
   vars:
     aws_region: "{{ lookup('env','AWS_REGION') | default('us-east-1', true) }}"
-    stack_name: "{{ lookup('env','STACK_NAME') | default('SymptomSyncStack', true) }}"
-    active_stage_param: "{{ lookup('env','ACTIVE_STAGE_PARAM') | default('/symptomsync/active_stage', true) }}"
+    stack_name: "{{ lookup('env','STACK_NAME') | default('upchaarinfoStack', true) }}"
+    active_stage_param: "{{ lookup('env','ACTIVE_STAGE_PARAM') | default('/upchaarinfo/active_stage', true) }}"
     target_stage: "{{ lookup('env','TARGET_STAGE') | default('', true) }}"
     smoke_path: "{{ lookup('env','SMOKE_PATH') | default('/health', true) }}"
 

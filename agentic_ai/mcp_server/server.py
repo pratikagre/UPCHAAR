@@ -19,13 +19,13 @@ logger = structlog.get_logger()
 
 # Prometheus metrics
 REQUEST_COUNT = Counter(
-    'symptomsync_requests_total',
+    'upchaarinfo_requests_total',
     'Total request count',
     ['method', 'endpoint', 'status']
 )
 
 REQUEST_DURATION = Histogram(
-    'symptomsync_request_duration_seconds',
+    'upchaarinfo_request_duration_seconds',
     'Request duration in seconds',
     ['method', 'endpoint']
 )
@@ -34,9 +34,9 @@ REQUEST_DURATION = Histogram(
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application lifespan"""
-    logger.info("Starting SymptomSync MCP Server", version=settings.app_version)
+    logger.info("Starting upchaarinfo MCP Server", version=settings.app_version)
     yield
-    logger.info("Shutting down SymptomSync MCP Server")
+    logger.info("Shutting down upchaarinfo MCP Server")
 
 
 class MCPServer:
@@ -58,7 +58,7 @@ class MCPServer:
         """Create and configure FastAPI application"""
 
         app = FastAPI(
-            title="SymptomSync Agentic AI API",
+            title="upchaarinfo Agentic AI API",
             description="Multi-agent AI system for health symptom analysis",
             version=settings.app_version,
             lifespan=lifespan,

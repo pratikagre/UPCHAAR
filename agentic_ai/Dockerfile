@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for SymptomSync Agentic AI Pipeline
+# Multi-stage Dockerfile for upchaarinfo Agentic AI Pipeline
 
 # Stage 1: Build stage
 FROM python:3.11-slim as builder

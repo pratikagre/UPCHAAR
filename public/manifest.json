@@ -1,6 +1,6 @@
 {
-  "name": "SymptomSync",
-  "short_name": "SymptomSync",
+  "name": "upchaarinfo",
+  "short_name": "upchaarinfo",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

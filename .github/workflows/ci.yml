@@ -1,4 +1,4 @@
-name: CI / CD Pipeline – SymptomSync App
+name: CI / CD Pipeline – upchaarinfo App
 
 # Copyright: Son Nguyen, 2025
 # License: MIT
@@ -167,15 +167,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build & push SymptomSync image
+      - name: Build & push upchaarinfo image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/symptomsync:${{ github.sha }}
-            ghcr.io/${{ github.repository_owner }}/symptomsync:latest
+            ghcr.io/${{ github.repository_owner }}/upchaarinfo:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/upchaarinfo:latest
           build-args: |
             NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
             NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
@@ -190,10 +190,10 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - name: Scan SymptomSync image
+      - name: Scan upchaarinfo image
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: ghcr.io/${{ github.repository_owner }}/symptomsync:latest
+          image-ref: ghcr.io/${{ github.repository_owner }}/upchaarinfo:latest
           format: sarif
           exit-code: 0
 
@@ -208,7 +208,7 @@ jobs:
     steps:
       - name: Run container
         run: |
-          docker run -d --rm -p 5000:5000 ghcr.io/${{ github.repository_owner }}/symptomsync:latest
+          docker run -d --rm -p 5000:5000 ghcr.io/${{ github.repository_owner }}/upchaarinfo:latest
           sleep 5
       - name: Smoke test with Artillery
         run: npx artillery quick --count 20 -n 50 http://localhost:5000/health || true
@@ -245,10 +245,10 @@ jobs:
     steps:
       - name: Deployment Summary (log)
         run: |
-          echo "::group::🎉 SymptomSync Deployment Summary"
+          echo "::group::🎉 upchaarinfo Deployment Summary"
           echo ""
-          echo "- 🌐 **Web App:** https://symptomsync.vercel.app"
-          echo "- 🐳 **Container Image:** ghcr.io/${{ github.repository_owner }}/symptomsync:${{ github.sha }}"
+          echo "- 🌐 **Web App:** https://upchaarinfo.vercel.app"
+          echo "- 🐳 **Container Image:** ghcr.io/${{ github.repository_owner }}/upchaarinfo:${{ github.sha }}"
           echo "- 🚀 **AWS/CDK + Ansible Deployed:** ✅"
           echo ""
           echo "✅ All stages completed successfully!"
@@ -257,12 +257,12 @@ jobs:
       - name: Write Summary to GitHub Step Summary
         run: |
           {
-            echo "## 🚀 SymptomSync CI/CD Pipeline Complete"
+            echo "## 🚀 upchaarinfo CI/CD Pipeline Complete"
             echo ""
             echo "| Item                  | Details                                                |"
             echo "| --------------------- | ------------------------------------------------------ |"
-            echo "| **Live Web App**      | [https://symptomsync.vercel.app](https://symptomsync.vercel.app) |"
-            echo "| **Container Image**   | `ghcr.io/${{ github.repository_owner }}/symptomsync:${{ github.sha }}` |"
+            echo "| **Live Web App**      | [https://upchaarinfo.vercel.app](https://upchaarinfo.vercel.app) |"
+            echo "| **Container Image**   | `ghcr.io/${{ github.repository_owner }}/upchaarinfo:${{ github.sha }}` |"
             echo "| **AWS Deployment**    | Completed via AWS CDK & Ansible                        |"
             echo ""
             echo "**Completed at** $(date -u +"%Y-%m-%dT%H:%M:%SZ") UTC"

@@ -34,10 +34,10 @@ export default function TermsAndConditions() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Terms and Conditions</title>
+        <title>upchaarinfo | Terms and Conditions</title>
         <meta
           name="description"
-          content="Read the Terms and Conditions for SymptomSync. Understand the rules and guidelines for using our app."
+          content="Read the Terms and Conditions for upchaarinfo. Understand the rules and guidelines for using our app."
         />
       </Head>
       <motion.main
@@ -63,7 +63,7 @@ export default function TermsAndConditions() {
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground">
               Please read these terms and conditions carefully before using
-              SymptomSync.
+              upchaarinfo.
             </p>
           </motion.header>
 
@@ -71,7 +71,7 @@ export default function TermsAndConditions() {
             <motion.article variants={fadeInUp}>
               <h2 className="text-2xl font-bold mb-4">Acceptance of Terms</h2>
               <p className="leading-7">
-                By accessing and using SymptomSync (&quot;the App&quot;), you
+                By accessing and using upchaarinfo (&quot;the App&quot;), you
                 accept and agree to be bound by the terms and provision of this
                 agreement. If you do not agree to these terms, please do not use
                 our services.
@@ -92,7 +92,7 @@ export default function TermsAndConditions() {
             <motion.article variants={fadeInUp}>
               <h2 className="text-2xl font-bold mb-4">User Responsibilities</h2>
               <p className="leading-7 mb-4">
-                When you use SymptomSync, you agree that you will not engage in
+                When you use upchaarinfo, you agree that you will not engage in
                 any activity that interferes with or disrupts the services. You
                 are responsible for all activities that occur under your
                 account.
@@ -116,9 +116,9 @@ export default function TermsAndConditions() {
             <motion.article variants={fadeInUp}>
               <h2 className="text-2xl font-bold mb-4">Intellectual Property</h2>
               <p className="leading-7">
-                All content, trademarks, and data on SymptomSync, including but
+                All content, trademarks, and data on upchaarinfo, including but
                 not limited to text, graphics, logos, icons, images, as well as
-                the software used, are the property of SymptomSync or its
+                the software used, are the property of upchaarinfo or its
                 licensors. Unauthorized use of any material may violate
                 copyright laws.
               </p>
@@ -129,7 +129,7 @@ export default function TermsAndConditions() {
                 Limitation of Liability
               </h2>
               <p className="leading-7">
-                In no event shall SymptomSync, nor its directors, employees,
+                In no event shall upchaarinfo, nor its directors, employees,
                 partners, agents, suppliers, or affiliates, be liable for any
                 indirect, incidental, special, consequential or punitive
                 damages, arising out of your use of or inability to use the App.
@@ -140,7 +140,7 @@ export default function TermsAndConditions() {
               <h2 className="text-2xl font-bold mb-4">Governing Law</h2>
               <p className="leading-7">
                 These Terms shall be governed and construed in accordance with
-                the laws of the jurisdiction in which SymptomSync operates,
+                the laws of the jurisdiction in which upchaarinfo operates,
                 without regard to its conflict of law provisions.
               </p>
             </motion.article>
@@ -151,10 +151,10 @@ export default function TermsAndConditions() {
                 If you have any questions about these Terms and Conditions,
                 please contact us at{" "}
                 <a
-                  href="mailto:support@symptomsync.com"
+                  href="mailto:support@upchaarinfo.com"
                   className="text-foreground underline"
                 >
-                  support@symptomsync.com
+                  support@upchaarinfo.com
                 </a>
                 .
               </p>

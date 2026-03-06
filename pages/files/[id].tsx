@@ -99,7 +99,7 @@ export default function FileViewPage() {
   return (
     <>
       <Head>
-        <title>SymptomSync | File View</title>
+        <title>upchaarinfo | File View</title>
         <meta name="description" content="View your uploaded files" />
       </Head>
 

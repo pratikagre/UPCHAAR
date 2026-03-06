@@ -14,7 +14,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("push", (event) => {
   try {
     const data = event.data?.json?.() ?? {};
-    const title = data.title || "SymptomSync";
+    const title = data.title || "upchaarinfo";
     const body = data.body || "You have a new update";
     const options = {
       body,

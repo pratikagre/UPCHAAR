@@ -1,12 +1,12 @@
 # ────────────────────────────────────────────────────────────────────────────
-# Makefile for SymptomSync
+# Makefile for upchaarinfo
 #
 # Variables (can override from environment):
 GITHUB_ACTOR ?= $(error GITHUB_ACTOR is undefined, please export your GitHub username)
 GH_TOKEN     ?= $(error GH_TOKEN is undefined, please export your PAT with write:packages scope)
 FRONT_DIR    := web
 DEVCONT_DIR  := .devcontainer
-FRONT_IMAGE  := ghcr.io/hoangsonww/symptomsync-frontend:0.1.0
+FRONT_IMAGE  := ghcr.io/hoangsonww/upchaarinfo-frontend:0.1.0
 DEV_IMAGE    := ghcr.io/hoangsonww/devcontainer-setup:latest
 BUILD_DATE   := $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 SHELL        := /usr/bin/env bash
@@ -19,7 +19,7 @@ all: build
 
 # Show usage
 help:
-	@echo "SymptomSync Makefile"
+	@echo "upchaarinfo Makefile"
 	@echo
 	@echo "Usage:"
 	@echo "  make [target]"

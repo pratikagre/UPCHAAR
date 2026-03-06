@@ -214,14 +214,14 @@ function generateIcs(events: CalendarEvent[]): string {
   const ics = [
     "BEGIN:VCALENDAR",
     "CALSCALE:GREGORIAN",
-    "PRODID:-//SymptomSync//EN",
+    "PRODID:-//upchaarinfo//EN",
     "VERSION:2.0",
-    "X-WR-CALNAME:SymptomSync Calendar",
+    "X-WR-CALNAME:upchaarinfo Calendar",
   ];
   const dtStamp = formatDateUtc(new Date());
   events.forEach((ev) => {
     ics.push("BEGIN:VEVENT");
-    ics.push(`UID:${ev.id}@symptomsync.com`);
+    ics.push(`UID:${ev.id}@upchaarinfo.com`);
     ics.push(`DTSTAMP:${dtStamp}`);
     ics.push(`DTSTART:${formatDateUtc(ev.start)}`);
     ics.push(`DTEND:${formatDateUtc(ev.end)}`);
@@ -976,7 +976,7 @@ export default function CalendarPage() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Calendar</title>
+        <title>upchaarinfo | Calendar</title>
         <meta
           name="description"
           content="Manage your appointments & medications easily"
@@ -1161,7 +1161,7 @@ export default function CalendarPage() {
               <DialogDescription>
                 Use this tool to export your calendar as an ICS file to sync
                 with another calendar service, or import an ICS file from
-                another provider into your SymptomSync calendar.
+                another provider into your upchaarinfo calendar.
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-6 py-4">

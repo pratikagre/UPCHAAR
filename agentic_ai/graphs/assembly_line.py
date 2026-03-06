@@ -23,7 +23,7 @@ import structlog
 logger = structlog.get_logger()
 
 
-class SymptomSyncGraph:
+class upchaarinfoGraph:
     """
     Main LangGraph assembly line for symptom analysis.
 
@@ -41,7 +41,7 @@ class SymptomSyncGraph:
 
     def __init__(self):
         """Initialize the assembly line graph"""
-        self.logger = logger.bind(component="SymptomSyncGraph")
+        self.logger = logger.bind(component="upchaarinfoGraph")
 
         # Initialize agents
         self.symptom_extractor = SymptomExtractorAgent()

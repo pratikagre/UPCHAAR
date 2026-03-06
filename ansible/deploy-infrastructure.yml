@@ -1,5 +1,5 @@
 ---
-- name: Deploy SymptomSync AWS Infrastructure
+- name: Deploy upchaarinfo AWS Infrastructure
   hosts: local
   connection: local
   gather_facts: yes
@@ -73,7 +73,7 @@
         AWS_PROFILE: "{{ aws_profile }}"
         AWS_REGION: "{{ aws_region }}"
 
-    - name: Deploy SymptomSync Stack
+    - name: Deploy upchaarinfo Stack
       ansible.builtin.command: >
         cdk deploy --require-approval never
       args:

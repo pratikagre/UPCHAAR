@@ -2,7 +2,7 @@
 #
 # publish_frontend.sh
 #
-# Builds the SymptomSync frontend Docker image and pushes it to GitHub Container Registry.
+# Builds the upchaarinfo frontend Docker image and pushes it to GitHub Container Registry.
 #
 # Prerequisites:
 #   - A GitHub PAT with `write:packages` scope stored in GH_TOKEN
@@ -20,7 +20,7 @@ set -euo pipefail
 # ----------------------------------------------------------------------------
 # Configuration
 # ----------------------------------------------------------------------------
-IMAGE="ghcr.io/hoangsonww/symptomsync-frontend:0.1.0"
+IMAGE="ghcr.io/hoangsonww/upchaarinfo-frontend:0.1.0"
 
 : "${GITHUB_ACTOR:?Please export GITHUB_ACTOR=<your GitHub username>}"
 : "${GH_TOKEN:?Please export GH_TOKEN=<your PAT with write:packages>}"

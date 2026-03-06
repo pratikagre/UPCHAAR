@@ -14,7 +14,7 @@ from .models import (
     BatchAnalysisResponse,
     ErrorResponse,
 )
-from ..graphs.assembly_line import SymptomSyncGraph
+from ..graphs.assembly_line import upchaarinfoGraph
 from ..config.settings import settings
 
 logger = structlog.get_logger()
@@ -25,11 +25,11 @@ router = APIRouter()
 _graph_instance = None
 
 
-def get_graph() -> SymptomSyncGraph:
+def get_graph() -> upchaarinfoGraph:
     """Get or create the graph instance"""
     global _graph_instance
     if _graph_instance is None:
-        _graph_instance = SymptomSyncGraph()
+        _graph_instance = upchaarinfoGraph()
     return _graph_instance
 
 
@@ -42,7 +42,7 @@ def get_graph() -> SymptomSyncGraph:
 )
 async def analyze_symptoms(
     request: SymptomAnalysisRequest,
-    graph: SymptomSyncGraph = Depends(get_graph),
+    graph: upchaarinfoGraph = Depends(get_graph),
 ) -> SymptomAnalysisResponse:
     """
     Analyze symptoms and provide recommendations.
@@ -112,7 +112,7 @@ async def analyze_symptoms(
 )
 async def batch_analyze_symptoms(
     request: BatchAnalysisRequest,
-    graph: SymptomSyncGraph = Depends(get_graph),
+    graph: upchaarinfoGraph = Depends(get_graph),
 ) -> BatchAnalysisResponse:
     """
     Batch analyze multiple symptom requests.
@@ -171,7 +171,7 @@ async def batch_analyze_symptoms(
     description="Get a Mermaid diagram of the agent assembly line"
 )
 async def visualize_graph(
-    graph: SymptomSyncGraph = Depends(get_graph),
+    graph: upchaarinfoGraph = Depends(get_graph),
 ) -> Dict[str, str]:
     """
     Get a visualization of the agent graph.

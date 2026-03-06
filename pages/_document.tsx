@@ -9,58 +9,58 @@ export default function Document() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="SymptomSync - Your health companion to track, understand, and manage your daily health seamlessly."
+          content="upchaarinfo - Your health companion to track, understand, and manage your daily health seamlessly."
         />
         <meta
           name="keywords"
-          content="health, tracking, symptom, companion, wellness, SymptomSync"
+          content="health, tracking, symptom, companion, wellness, upchaarinfo"
         />
 
         {/* Favicon and App Icons */}
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href="https://symptomsync.vercel.app/apple-touch-icon.png"
+          href="https://upchaarinfo.vercel.app/apple-touch-icon.png"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href="https://symptomsync.vercel.app/favicon-32x32.png"
+          href="https://upchaarinfo.vercel.app/favicon-32x32.png"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href="https://symptomsync.vercel.app/favicon-16x16.png"
+          href="https://upchaarinfo.vercel.app/favicon-16x16.png"
         />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#344966" />
 
         {/* Open Graph / Facebook */}
-        <meta property="og:title" content="SymptomSync" />
+        <meta property="og:title" content="upchaarinfo" />
         <meta
           property="og:description"
           content="Your health companion to track, understand, and manage your daily health seamlessly."
         />
         <meta
           property="og:image"
-          content="https://symptomsync.vercel.app/android-chrome-512x512.png"
+          content="https://upchaarinfo.vercel.app/android-chrome-512x512.png"
         />
-        <meta property="og:url" content="https://symptomsync.vercel.app" />
+        <meta property="og:url" content="https://upchaarinfo.vercel.app" />
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="SymptomSync" />
+        <meta property="og:site_name" content="upchaarinfo" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="SymptomSync" />
+        <meta name="twitter:title" content="upchaarinfo" />
         <meta
           name="twitter:description"
           content="Your health companion to track, understand, and manage your daily health seamlessly."
         />
         <meta
           name="twitter:image"
-          content="https://symptomsync.vercel.app/android-chrome-512x512.png"
+          content="https://upchaarinfo.vercel.app/android-chrome-512x512.png"
         />
 
         {/* Additional Meta Tags */}

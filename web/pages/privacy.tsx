@@ -24,10 +24,10 @@ export default function PrivacyPolicy() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Privacy Policy</title>
+        <title>upchaarinfo | Privacy Policy</title>
         <meta
           name="description"
-          content="Read our Privacy Policy at SymptomSync. Learn how we collect, use, and protect your personal data."
+          content="Read our Privacy Policy at upchaarinfo. Learn how we collect, use, and protect your personal data."
         />
       </Head>
       <motion.div
@@ -52,7 +52,7 @@ export default function PrivacyPolicy() {
               Privacy Policy
             </h1>
             <p className="text-lg sm:text-xl text-muted-foreground">
-              Your privacy is important to us at SymptomSync.
+              Your privacy is important to us at upchaarinfo.
             </p>
           </motion.header>
 
@@ -65,7 +65,7 @@ export default function PrivacyPolicy() {
             <motion.article variants={fadeInUp}>
               <h2 className="text-2xl font-bold mb-3">Introduction</h2>
               <p>
-                Welcome to SymptomSync. We are committed to protecting your
+                Welcome to upchaarinfo. We are committed to protecting your
                 personal data and your right to privacy. This Privacy Policy
                 explains how we collect, use, disclose, and safeguard your
                 information when you use our platform.
@@ -146,10 +146,10 @@ export default function PrivacyPolicy() {
                 You have the right to access, correct, or delete your personal
                 data. To exercise these rights, please contact us at{" "}
                 <a
-                  href="mailto:privacy@symptomsync.com"
+                  href="mailto:privacy@upchaarinfo.com"
                   className="text-foreground underline"
                 >
-                  support@symptomsync.com
+                  support@upchaarinfo.com
                 </a>
                 .
               </p>
@@ -171,10 +171,10 @@ export default function PrivacyPolicy() {
                 If you have any questions about this Privacy Policy, please
                 email us at{" "}
                 <a
-                  href="mailto:privacy@symptomsync.com"
+                  href="mailto:privacy@upchaarinfo.com"
                   className="text-foreground underline"
                 >
-                  support@symptomsync.com
+                  support@upchaarinfo.com
                 </a>
                 .
               </p>

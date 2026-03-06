@@ -41,11 +41,11 @@
     }
   },
   "variables": {
-    "appName": "[concat('symptomsync-ai-', parameters('environmentName'))]",
+    "appName": "[concat('upchaarinfo-ai-', parameters('environmentName'))]",
     "containerGroupName": "[concat(variables('appName'), '-container-group')]",
     "postgresServerName": "[concat(variables('appName'), '-postgres')]",
     "redisName": "[concat(variables('appName'), '-redis')]",
-    "storageAccountName": "[concat('symptomsync', uniqueString(resourceGroup().id))]",
+    "storageAccountName": "[concat('upchaarinfo', uniqueString(resourceGroup().id))]",
     "appInsightsName": "[concat(variables('appName'), '-insights')]",
     "vnetName": "[concat(variables('appName'), '-vnet')]",
     "subnetName": "default"
@@ -115,7 +115,7 @@
       },
       "properties": {
         "version": "15",
-        "administratorLogin": "symptomsync",
+        "administratorLogin": "upchaarinfo",
         "administratorLoginPassword": "[parameters('databasePassword')]",
         "storage": {
           "storageSizeGB": 128
@@ -132,7 +132,7 @@
     {
       "type": "Microsoft.DBforPostgreSQL/flexibleServers/databases",
       "apiVersion": "2021-06-01",
-      "name": "[concat(variables('postgresServerName'), '/symptomsync')]",
+      "name": "[concat(variables('postgresServerName'), '/upchaarinfo')]",
       "dependsOn": [
         "[resourceId('Microsoft.DBforPostgreSQL/flexibleServers', variables('postgresServerName'))]"
       ]
@@ -196,27 +196,27 @@
               ],
               "environmentVariables": [
                 {
-                  "name": "SYMPTOMSYNC_ENVIRONMENT",
+                  "name": "upchaarinfo_ENVIRONMENT",
                   "value": "[parameters('environmentName')]"
                 },
                 {
-                  "name": "SYMPTOMSYNC_APP_NAME",
-                  "value": "SymptomSync Agentic AI"
+                  "name": "upchaarinfo_APP_NAME",
+                  "value": "upchaarinfo Agentic AI"
                 },
                 {
-                  "name": "SYMPTOMSYNC_DATABASE_URL",
-                  "value": "[concat('postgresql://symptomsync:', parameters('databasePassword'), '@', reference(resourceId('Microsoft.DBforPostgreSQL/flexibleServers', variables('postgresServerName'))).fullyQualifiedDomainName, ':5432/symptomsync')]"
+                  "name": "upchaarinfo_DATABASE_URL",
+                  "value": "[concat('postgresql://upchaarinfo:', parameters('databasePassword'), '@', reference(resourceId('Microsoft.DBforPostgreSQL/flexibleServers', variables('postgresServerName'))).fullyQualifiedDomainName, ':5432/upchaarinfo')]"
                 },
                 {
-                  "name": "SYMPTOMSYNC_REDIS_HOST",
+                  "name": "upchaarinfo_REDIS_HOST",
                   "value": "[reference(resourceId('Microsoft.Cache/Redis', variables('redisName'))).hostName]"
                 },
                 {
-                  "name": "SYMPTOMSYNC_REDIS_PORT",
+                  "name": "upchaarinfo_REDIS_PORT",
                   "value": "6380"
                 },
                 {
-                  "name": "SYMPTOMSYNC_OPENAI_API_KEY",
+                  "name": "upchaarinfo_OPENAI_API_KEY",
                   "secureValue": "[parameters('openAIApiKey')]"
                 },
                 {

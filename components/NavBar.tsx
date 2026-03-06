@@ -151,7 +151,7 @@ export default function NavBar({
             {isExpanded ? (
               <span className="text-xl font-bold tracking-wide cursor-pointer">
                 <Link href="/home" className="flex items-center">
-                  SymptomSync
+                  upchaarinfo
                 </Link>
               </span>
             ) : (

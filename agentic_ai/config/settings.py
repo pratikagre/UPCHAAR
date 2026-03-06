@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     )
 
     # Application Settings
-    app_name: str = Field(default="SymptomSync Agentic AI", description="Application name")
+    app_name: str = Field(default="upchaarinfo Agentic AI", description="Application name")
     app_version: str = Field(default="1.0.0", description="Application version")
     environment: str = Field(default="development", description="Environment: development, staging, production")
     debug: bool = Field(default=False, description="Debug mode")
@@ -39,11 +39,11 @@ class Settings(BaseSettings):
     chroma_persist_directory: str = Field(default="./data/chroma", description="ChromaDB persistence directory")
     pinecone_api_key: Optional[str] = Field(default=None, description="Pinecone API Key")
     pinecone_environment: Optional[str] = Field(default=None, description="Pinecone environment")
-    pinecone_index_name: str = Field(default="symptomsync", description="Pinecone index name")
+    pinecone_index_name: str = Field(default="upchaarinfo", description="Pinecone index name")
 
     # Database Settings
     database_url: str = Field(
-        default="postgresql://user:password@localhost:5432/symptomsync",
+        default="postgresql://user:password@localhost:5432/upchaarinfo",
         description="Database connection URL"
     )
 
@@ -84,7 +84,7 @@ class Settings(BaseSettings):
 
     class Config:
         """Pydantic configuration"""
-        env_prefix = "SYMPTOMSYNC_"
+        env_prefix = "upchaarinfo_"
 
 
 # Global settings instance

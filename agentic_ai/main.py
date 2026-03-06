@@ -1,5 +1,5 @@
 """
-Main entry point for SymptomSync Agentic AI Pipeline
+Main entry point for upchaarinfo Agentic AI Pipeline
 """
 
 import asyncio
@@ -23,7 +23,7 @@ def main():
     print(f"""
     ╔═══════════════════════════════════════════════════════════╗
     ║                                                           ║
-    ║          SymptomSync Agentic AI Pipeline                 ║
+    ║          upchaarinfo Agentic AI Pipeline                 ║
     ║                                                           ║
     ║  Multi-Agent System for Health Symptom Analysis          ║
     ║                                                           ║

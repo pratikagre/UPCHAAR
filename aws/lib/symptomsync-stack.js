@@ -14,7 +14,7 @@ const cloudwatch = require('aws-cdk-lib/aws-cloudwatch');
 const ssm = require('aws-cdk-lib/aws-ssm');
 const wafv2 = require('aws-cdk-lib/aws-wafv2');
 
-class SymptomSyncStack extends Stack {
+class upchaarinfoStack extends Stack {
   constructor(scope, id, props) {
     super(scope, id, props);
 
@@ -164,8 +164,8 @@ class SymptomSyncStack extends Stack {
     documentsBucket.grantReadWrite(storageAlias);
 
     // API Gateway
-    const api = new apigw.RestApi(this, 'SymptomSyncApi', {
-      restApiName: 'SymptomSync Service',
+    const api = new apigw.RestApi(this, 'upchaarinfoApi', {
+      restApiName: 'upchaarinfo Service',
       deploy: false,
       defaultCorsPreflightOptions: {
         allowOrigins: ['*'],
@@ -221,7 +221,7 @@ class SymptomSyncStack extends Stack {
     );
 
     // Blue/green stages
-    const deployment = new apigw.Deployment(this, 'SymptomSyncDeployment', { api });
+    const deployment = new apigw.Deployment(this, 'upchaarinfoDeployment', { api });
     const blueStage = new apigw.Stage(this, 'BlueStage', {
       deployment,
       stageName: 'blue',
@@ -240,7 +240,7 @@ class SymptomSyncStack extends Stack {
     });
 
     const activeStageParam = new ssm.StringParameter(this, 'ActiveStageParameter', {
-      parameterName: '/symptomsync/active_stage',
+      parameterName: '/upchaarinfo/active_stage',
       stringValue: 'blue',
       description: 'Active API stage for production traffic (blue/green switch).',
     });
@@ -251,7 +251,7 @@ class SymptomSyncStack extends Stack {
       defaultAction: { allow: {} },
       visibilityConfig: {
         cloudWatchMetricsEnabled: true,
-        metricName: 'symptomsync-waf',
+        metricName: 'upchaarinfo-waf',
         sampledRequestsEnabled: true,
       },
       rules: [
@@ -339,4 +339,4 @@ class SymptomSyncStack extends Stack {
   }
 }
 
-module.exports = { SymptomSyncStack };
+module.exports = { upchaarinfoStack };

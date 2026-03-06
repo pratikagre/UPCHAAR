@@ -37,10 +37,10 @@ export default function ForgotPassword() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Forgot Password</title>
+        <title>upchaarinfo | Forgot Password</title>
         <meta
           name="description"
-          content="Reset your password to access your SymptomSync account."
+          content="Reset your password to access your upchaarinfo account."
         />
       </Head>
       <div className="h-screen flex flex-col sm:flex-row">
@@ -95,7 +95,7 @@ export default function ForgotPassword() {
           <div className="flex flex-col justify-between h-full">
             <div className="text-right mb-8">
               <h1 className="text-3xl sm:text-4xl font-bold text-white">
-                SymptomSync
+                upchaarinfo
               </h1>
             </div>
             <div className="mt-auto text-right">

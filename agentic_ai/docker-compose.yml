@@ -6,17 +6,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: symptomsync-agentic-ai:latest
-    container_name: symptomsync-agentic-ai
+    image: upchaarinfo-agentic-ai:latest
+    container_name: upchaarinfo-agentic-ai
     ports:
       - "8000:8000"
     environment:
-      - SYMPTOMSYNC_ENVIRONMENT=production
-      - SYMPTOMSYNC_DATABASE_URL=postgresql://symptomsync:password@postgres:5432/symptomsync
-      - SYMPTOMSYNC_REDIS_HOST=redis
-      - SYMPTOMSYNC_REDIS_PORT=6379
-      - SYMPTOMSYNC_OPENAI_API_KEY=${OPENAI_API_KEY}
-      - SYMPTOMSYNC_CHROMA_PERSIST_DIRECTORY=/app/data/chroma
+      - upchaarinfo_ENVIRONMENT=production
+      - upchaarinfo_DATABASE_URL=postgresql://upchaarinfo:password@postgres:5432/upchaarinfo
+      - upchaarinfo_REDIS_HOST=redis
+      - upchaarinfo_REDIS_PORT=6379
+      - upchaarinfo_OPENAI_API_KEY=${OPENAI_API_KEY}
+      - upchaarinfo_CHROMA_PERSIST_DIRECTORY=/app/data/chroma
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs
@@ -26,7 +26,7 @@ services:
       redis:
         condition: service_healthy
     networks:
-      - symptomsync-network
+      - upchaarinfo-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
@@ -38,21 +38,21 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: symptomsync-postgres
+    container_name: upchaarinfo-postgres
     environment:
-      - POSTGRES_USER=symptomsync
+      - POSTGRES_USER=upchaarinfo
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=symptomsync
+      - POSTGRES_DB=upchaarinfo
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
-      - symptomsync-network
+      - upchaarinfo-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U symptomsync"]
+      test: ["CMD-SHELL", "pg_isready -U upchaarinfo"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -60,14 +60,14 @@ services:
   # Redis Cache
   redis:
     image: redis:7-alpine
-    container_name: symptomsync-redis
+    container_name: upchaarinfo-redis
     command: redis-server --appendonly yes
     volumes:
       - redis-data:/data
     ports:
       - "6379:6379"
     networks:
-      - symptomsync-network
+      - upchaarinfo-network
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -78,7 +78,7 @@ services:
   # Prometheus Monitoring
   prometheus:
     image: prom/prometheus:latest
-    container_name: symptomsync-prometheus
+    container_name: upchaarinfo-prometheus
     volumes:
       - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-data:/prometheus
@@ -88,13 +88,13 @@ services:
     ports:
       - "9090:9090"
     networks:
-      - symptomsync-network
+      - upchaarinfo-network
     restart: unless-stopped
 
   # Grafana Dashboard
   grafana:
     image: grafana/grafana:latest
-    container_name: symptomsync-grafana
+    container_name: upchaarinfo-grafana
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_USERS_ALLOW_SIGN_UP=false
@@ -103,13 +103,13 @@ services:
     ports:
       - "3001:3000"
     networks:
-      - symptomsync-network
+      - upchaarinfo-network
     depends_on:
       - prometheus
     restart: unless-stopped
 
 networks:
-  symptomsync-network:
+  upchaarinfo-network:
     driver: bridge
 
 volumes:

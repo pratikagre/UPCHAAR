@@ -240,7 +240,7 @@ export default function AIChatPage() {
 
   useEffect(() => {
     if (!userId) return;
-    const stored = localStorage.getItem(`symptomSyncChat-${userId}`);
+    const stored = localStorage.getItem(`upchaarinfoChat-${userId}`);
     if (stored) {
       try {
         setMessages(JSON.parse(stored));
@@ -254,7 +254,7 @@ export default function AIChatPage() {
 
   useEffect(() => {
     if (!userId) return;
-    localStorage.setItem(`symptomSyncChat-${userId}`, JSON.stringify(messages));
+    localStorage.setItem(`upchaarinfoChat-${userId}`, JSON.stringify(messages));
     if (hasSentMessageRef.current) {
       scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }
@@ -421,7 +421,7 @@ export default function AIChatPage() {
   const handleClear = () => {
     setMessages([]);
     if (userId) {
-      localStorage.removeItem(`symptomSyncChat-${userId}`);
+      localStorage.removeItem(`upchaarinfoChat-${userId}`);
     }
     hasSentMessageRef.current = false;
   };
@@ -451,8 +451,8 @@ export default function AIChatPage() {
   return (
     <>
       <Head>
-        <title>SymptomSync | AI Chat</title>
-        <meta name="description" content="Chat with SymptomSync Assistant" />
+        <title>upchaarinfo | AI Chat</title>
+        <meta name="description" content="Chat with upchaarinfo Assistant" />
       </Head>
 
       <ClientOnly>

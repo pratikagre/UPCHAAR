@@ -32,8 +32,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 
 # OCI labels
-LABEL org.opencontainers.image.title="SymptomSync Frontend" \
-      org.opencontainers.image.description="Production build of SymptomSync, a health management web app built with Next.js" \
+LABEL org.opencontainers.image.title="upchaarinfo Frontend" \
+      org.opencontainers.image.description="Production build of upchaarinfo, a health management web app built with Next.js" \
       org.opencontainers.image.version="0.1.0" \
       org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.url="https://github.com/comp426-25s/final-project-team-16" \

@@ -309,7 +309,7 @@ const securityHighlights = [
 const testimonials = [
   {
     quote:
-      "SymptomSync feels like a clinical assistant. The AI summaries save us hours every week.",
+      "upchaarinfo feels like a clinical assistant. The AI summaries save us hours every week.",
     name: "Dr. Alex Morgan",
     icon: Sparkles,
   },
@@ -344,14 +344,14 @@ const faqs = [
   },
   {
     q: "How do I set reminders?",
-    a: "Add medications or appointments with a due date and SymptomSync handles the rest.",
+    a: "Add medications or appointments with a due date and upchaarinfo handles the rest.",
   },
   {
     q: "Is the AI available 24/7?",
     a: "Absolutely. The AI assistant is always on and built for quick, reliable guidance.",
   },
   {
-    q: "Does SymptomSync support deployment automation?",
+    q: "Does upchaarinfo support deployment automation?",
     a: "Yes. Terraform, Docker, and CI/CD pipelines enable repeatable and safe releases.",
   },
   {
@@ -379,10 +379,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>SymptomSync | AI-Driven Health Platform</title>
+        <title>upchaarinfo | AI-Driven Health Platform</title>
         <meta
           name="description"
-          content="SymptomSync is an AI-powered health platform with multi-agent analysis, secure tracking, and cloud-native deployment on AWS and Terraform."
+          content="upchaarinfo is an AI-powered health platform with multi-agent analysis, secure tracking, and cloud-native deployment on AWS and Terraform."
         />
       </Head>
       <div
@@ -627,7 +627,7 @@ export default function Home() {
                   <HeartPulse className="h-5 w-5" />
                 </div>
                 <span className="font-display text-lg tracking-tight">
-                  SymptomSync
+                  upchaarinfo
                 </span>
               </div>
               <nav className="hidden items-center gap-6 text-sm md:flex">
@@ -673,7 +673,7 @@ export default function Home() {
                 </AnimatedInView>
                 <AnimatedInView delay={0.2}>
                   <p className="mt-6 text-lg text-white/70 md:text-xl">
-                    SymptomSync unifies symptom tracking, reminders, AI
+                    upchaarinfo unifies symptom tracking, reminders, AI
                     analysis, and secure reporting in one platform. Deploy
                     confidently with AWS, Terraform, and enterprise-ready
                     observability.
@@ -887,7 +887,7 @@ export default function Home() {
                   Multi-agent intelligence built for healthcare
                 </h2>
                 <p className="mt-4 text-lg text-slate-600">
-                  SymptomSync runs a LangGraph-powered assembly line where
+                  upchaarinfo runs a LangGraph-powered assembly line where
                   specialized agents extract symptoms, retrieve knowledge,
                   analyze risks, and deliver personalized guidance in seconds.
                 </p>
@@ -972,7 +972,7 @@ export default function Home() {
                   Cloud-native, automated, and production ready
                 </h2>
                 <p className="mt-4 text-lg text-white/70">
-                  Run SymptomSync on AWS or Azure with Terraform-managed
+                  Run upchaarinfo on AWS or Azure with Terraform-managed
                   environments, Dockerized services, and CI/CD pipelines for
                   reliable releases.
                 </p>
@@ -1040,7 +1040,7 @@ export default function Home() {
                   Built to protect sensitive health data
                 </h2>
                 <p className="mt-4 text-lg text-slate-600">
-                  From encryption to audit trails, SymptomSync applies
+                  From encryption to audit trails, upchaarinfo applies
                   healthcare-grade protections across every layer of the stack.
                 </p>
                 <div className="mt-6 space-y-3 text-sm text-slate-600">
@@ -1091,7 +1091,7 @@ export default function Home() {
                   What teams are saying
                 </h2>
                 <p className="mt-4 text-lg text-slate-600">
-                  Clinicians, engineers, and care teams trust SymptomSync for
+                  Clinicians, engineers, and care teams trust upchaarinfo for
                   modern, AI-powered workflows.
                 </p>
               </div>
@@ -1130,7 +1130,7 @@ export default function Home() {
                   Frequently asked questions
                 </h2>
                 <p className="mt-4 text-lg text-slate-600">
-                  Quick answers to help you evaluate SymptomSync.
+                  Quick answers to help you evaluate upchaarinfo.
                 </p>
               </div>
             </AnimatedInView>
@@ -1159,7 +1159,7 @@ export default function Home() {
                 Ready to deliver smarter, safer care?
               </h2>
               <p className="mt-4 text-lg text-white/70">
-                Launch SymptomSync with a production-grade AI stack, robust
+                Launch upchaarinfo with a production-grade AI stack, robust
                 deployment tooling, and a delightful patient experience.
               </p>
               <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
@@ -1194,7 +1194,7 @@ export default function Home() {
         <footer className="bg-slate-950 px-6 py-8 text-white">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
             <p className="text-xs text-white/70">
-              © {new Date().getFullYear()} SymptomSync. All rights reserved.
+              © {new Date().getFullYear()} upchaarinfo. All rights reserved.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-white/70">
               <Link href="/privacy" className="hover:text-white">

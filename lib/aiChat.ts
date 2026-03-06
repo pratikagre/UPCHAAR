@@ -75,7 +75,7 @@ const fetchGeminiModels = async (apiKey: string): Promise<string[]> => {
 
 /**
  * Sends a chat message to Gemini AI. This helper preserves conversation history so that the context
- * is maintained between messages. The assistant is identified as "SymptomSync Assistant" and acts as a
+ * is maintained between messages. The assistant is identified as "upchaarinfo Assistant" and acts as a
  * knowledgeable health expert.
  *
  * @param history - An array representing the conversation history. Each element should have a `role` and `parts`.
@@ -97,7 +97,7 @@ export async function chatWithHealthAI(
   const defaultSystemInstruction =
     systemInstruction ||
     `
-    You are SymptomSync Assistant, a health expert. 
+    You are upchaarinfo Assistant, a health expert. 
     Answer user questions about their health accurately, empathetically, and in detail. 
     Provide advice based on relevant medical knowledge.
     Today's date/time is ${new Date().toISOString()} — resolve relative dates like "today", "tomorrow", "yesterday", "tonight" using this.
@@ -111,7 +111,7 @@ export async function chatWithHealthAI(
       - health_log: symptom_type (severity/start_date/notes optional).
 
     Use this exact format for the action block:
-    \`\`\`symptomsync-action
+    \`\`\`upchaarinfo-action
     {
       "entity": "appointment" | "medication" | "health_log",
       "intent": "create" | "update" | "delete",

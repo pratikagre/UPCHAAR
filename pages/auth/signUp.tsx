@@ -41,10 +41,10 @@ export default function SignUp() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Sign Up</title>
+        <title>upchaarinfo | Sign Up</title>
         <meta
           name="description"
-          content="Create an account to track and manage your health with SymptomSync."
+          content="Create an account to track and manage your health with upchaarinfo."
         />
       </Head>
       <div className="h-screen flex flex-col sm:flex-row">
@@ -61,7 +61,7 @@ export default function SignUp() {
         <div className="bg-primary text-white w-full sm:w-1/2 flex-1 flex flex-col p-8 sm:py-12 sm:px-10">
           <div className="flex flex-col justify-between h-full">
             <div className="mb-8">
-              <h1 className="text-3xl sm:text-4xl font-bold">SymptomSync</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold">upchaarinfo</h1>
             </div>
             <div className="mt-auto">
               <h2 className="text-xl sm:text-2xl font-semibold mb-4">

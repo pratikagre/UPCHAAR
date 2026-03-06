@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# SymptomSync Agentic AI - Azure Deployment Script
+# upchaarinfo Agentic AI - Azure Deployment Script
 
 set -e
 
 echo "=========================================="
-echo "SymptomSync Agentic AI - Azure Deployment"
+echo "upchaarinfo Agentic AI - Azure Deployment"
 echo "=========================================="
 
 # Configuration
 ENVIRONMENT=${ENVIRONMENT:-production}
-RESOURCE_GROUP="symptomsync-agentic-ai-${ENVIRONMENT}"
+RESOURCE_GROUP="upchaarinfo-agentic-ai-${ENVIRONMENT}"
 LOCATION=${AZURE_LOCATION:-eastus}
 
 # Check Azure CLI

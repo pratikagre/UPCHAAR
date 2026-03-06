@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# Builds & pushes SymptomSync frontend to GHCR
+# Builds & pushes upchaarinfo frontend to GHCR
 #
 set -euo pipefail
 
 # Image name + tag
-IMAGE="ghcr.io/hoangsonww/symptomsync-frontend:0.1.0"
+IMAGE="ghcr.io/hoangsonww/upchaarinfo-frontend:0.1.0"
 
 # Ensure credentials
 : "${GITHUB_ACTOR:?Please export GITHUB_ACTOR=<your GitHub username>}"

@@ -3,14 +3,14 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "symptomsync-agentic-ai"
+name = "upchaarinfo-agentic-ai"
 version = "1.0.0"
 description = "Multi-agent AI system for health symptom analysis"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [
-    {name = "SymptomSync Team"}
+    {name = "upchaarinfo Team"}
 ]
 keywords = ["ai", "agents", "langchain", "langgraph", "healthcare"]
 classifiers = [

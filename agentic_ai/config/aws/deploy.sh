@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# SymptomSync Agentic AI - AWS Deployment Script
+# upchaarinfo Agentic AI - AWS Deployment Script
 
 set -e
 
 echo "========================================"
-echo "SymptomSync Agentic AI - AWS Deployment"
+echo "upchaarinfo Agentic AI - AWS Deployment"
 echo "========================================"
 
 # Configuration
 ENVIRONMENT=${ENVIRONMENT:-production}
-STACK_NAME="symptomsync-agentic-ai-${ENVIRONMENT}"
+STACK_NAME="upchaarinfo-agentic-ai-${ENVIRONMENT}"
 REGION=${AWS_REGION:-us-east-1}
 
 # Check AWS CLI

@@ -3,7 +3,7 @@
 Use this before any prod cutover.
 
 ## Platform
-- DNS points to active API Gateway stage (from `/symptomsync/active_stage`).
+- DNS points to active API Gateway stage (from `/upchaarinfo/active_stage`).
 - TLS certs valid (ACM) for all domains.
 - WAF enabled on API Gateway with core managed rules + rate limits.
 - CloudWatch alarms deployed for 5XX rate, latency, Lambda errors, and reminder job failures.

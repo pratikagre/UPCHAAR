@@ -308,7 +308,7 @@ export default function DocumentsPage() {
       const { width, height } = titlePage.getSize();
       const font = await mergedPdf.embedFont(StandardFonts.HelveticaBold);
       const fontSize = 24;
-      titlePage.drawText("SymptomSync - Your Health Report", {
+      titlePage.drawText("upchaarinfo - Your Health Report", {
         x: 50,
         y: height - 4 * fontSize,
         size: fontSize,
@@ -382,7 +382,7 @@ export default function DocumentsPage() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Your Documents</title>
+        <title>upchaarinfo | Your Documents</title>
         <meta
           name="description"
           content="View and manage your health documents."

@@ -39,10 +39,10 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Log In</title>
+        <title>upchaarinfo | Log In</title>
         <meta
           name="description"
-          content="Log in to your SymptomSync account to track and manage your health."
+          content="Log in to your upchaarinfo account to track and manage your health."
         />
       </Head>
       <div className="h-screen flex flex-col sm:flex-row">
@@ -144,7 +144,7 @@ export default function LoginPage() {
           <div className="flex flex-col justify-between h-full">
             <div className="text-right mb-8">
               <h1 className="text-3xl sm:text-4xl font-bold text-white">
-                SymptomSync
+                upchaarinfo
               </h1>
             </div>
             <div className="mt-auto text-right">

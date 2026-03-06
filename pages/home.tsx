@@ -1461,7 +1461,7 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Home</title>
+        <title>upchaarinfo | Home</title>
         <meta name="description" content="Your personal health dashboard." />
       </Head>
 

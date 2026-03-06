@@ -352,7 +352,7 @@ export default function MedicationReminders() {
   return (
     <>
       <Head>
-        <title>SymptomSync | Medications</title>
+        <title>upchaarinfo | Medications</title>
         <meta
           name="description"
           content="Manage your medication reminders and never miss your dose."

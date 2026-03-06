@@ -1,5 +1,5 @@
 {
-    "name": "SymptomSync Project Container",
+    "name": "upchaarinfo Project Container",
     "dockerFile": "Dockerfile",
     
     // Forward ports

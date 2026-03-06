@@ -72,7 +72,7 @@ pipeline {
 
     stage('Build & Push Docker Image') {
       environment {
-        IMAGE_NAME = "ghcr.io/${env.GITHUB_REPOSITORY_OWNER ?: 'owner'}/symptomsync"
+        IMAGE_NAME = "ghcr.io/${env.GITHUB_REPOSITORY_OWNER ?: 'owner'}/upchaarinfo"
       }
       steps {
         withCredentials([usernamePassword(credentialsId: 'ghcr', usernameVariable: 'GHCR_USER', passwordVariable: 'GHCR_TOKEN')]) {
@@ -92,7 +92,7 @@ pipeline {
     stage('Image Vulnerability Scan') {
       steps {
         sh '''
-          trivy image --exit-code 0 ghcr.io/${env.GITHUB_REPOSITORY_OWNER ?: 'owner'}/symptomsync:latest || true
+          trivy image --exit-code 0 ghcr.io/${env.GITHUB_REPOSITORY_OWNER ?: 'owner'}/upchaarinfo:latest || true
         '''
       }
     }
@@ -101,7 +101,7 @@ pipeline {
       steps {
         sh '''
           if command -v cosign >/dev/null 2>&1 && [ -n "$COSIGN_KEY" ]; then
-            cosign sign --key "$COSIGN_KEY" ghcr.io/${env.GITHUB_REPOSITORY_OWNER ?: 'owner'}/symptomsync:${env.GIT_COMMIT}
+            cosign sign --key "$COSIGN_KEY" ghcr.io/${env.GITHUB_REPOSITORY_OWNER ?: 'owner'}/upchaarinfo:${env.GIT_COMMIT}
           else
             echo "Cosign key or binary missing; skipping image signing."
           fi
@@ -112,7 +112,7 @@ pipeline {
     stage('Performance Benchmark') {
       steps {
         sh '''
-          docker run -d --rm -p 5000:5000 ghcr.io/${env.GITHUB_REPOSITORY_OWNER ?: 'owner'}/symptomsync:latest
+          docker run -d --rm -p 5000:5000 ghcr.io/${env.GITHUB_REPOSITORY_OWNER ?: 'owner'}/upchaarinfo:latest
           sleep 5
           npx artillery quick --count 20 -n 50 http://localhost:5000/health || true
         '''
@@ -127,7 +127,7 @@ pipeline {
         sh '''
           if [ -d aws ]; then
             npm ci --prefix aws
-            npx cdk deploy --require-approval never --app \"node aws/bin/symptomsync.ts\" --all
+            npx cdk deploy --require-approval never --app \"node aws/bin/upchaarinfo.ts\" --all
           else
             echo "aws/ directory not present; skipping CDK deploy"
           fi
@@ -152,10 +152,10 @@ pipeline {
 
   post {
     success {
-      echo 'SymptomSync pipeline completed successfully'
+      echo 'upchaarinfo pipeline completed successfully'
     }
     failure {
-      echo 'SymptomSync pipeline failed'
+      echo 'upchaarinfo pipeline failed'
     }
   }
 }
